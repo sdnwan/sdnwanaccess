@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Admissions - Alpha University{% endblock %}
+
+{% block content %}
+        <section class="page-title-section" style="background-color: #f4f7f8; padding: 40px 0; text-align: center; margin-bottom: 40px;">
+            <div class="container">
+                <h1>University Admissions</h1>
+                <p>Start your journey at Alpha University. Find all the information you need to apply.</p>
+            </div>
+        </section>
+
+        <section class="content-section container">
+            <h2>How to Apply</h2>
+            <p>Applying to Alpha University is straightforward. Follow these steps:</p>
+            <ol style="list-style-type: decimal; margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+                <li><strong>Choose Your Course:</strong> Browse our <a href="courses.html">course offerings</a> and select the program that aligns with your interests and career goals.</li>
+                <li><strong>Check Entry Requirements:</strong> Review the specific academic prerequisites, English language proficiency standards, and any additional requirements for your chosen course.</li>
+                <li><strong>Gather Documentation:</strong> Prepare necessary documents such as academic transcripts, proof of identity, letters of recommendation (if required), and a personal statement (if required).</li>
+                <li><strong>Submit Your Application Online:</strong> Complete the official application form through our secure online portal (Link placeholder: <a href="#">Apply Now</a>). Ensure all sections are filled accurately.</li>
+                <li><strong>Application Outcome:</strong> You will be notified of the outcome of your application via email within the specified timeframe.</li>
+                <li><strong>Accept Your Offer:</strong> If successful, follow the instructions provided in your offer letter to formally accept your place at Alpha University.</li>
+            </ol>
+        </section>
+
+        <section class="content-section container" style="background-color: #f9f9f9; padding: 40px 20px; margin-top:40px; border-radius: 8px;">
+            <h2>Entry Requirements</h2>
+            <p>Admission criteria vary depending on the course level and specific program. Generally, we consider:</p>
+            <ul style="list-style: disc; margin-left: 20px; margin-top: 15px;">
+                <li><strong>Academic Performance:</strong> Your previous academic results (e.g., ATAR for undergraduates, Bachelor's degree results for postgraduates).</li>
+                <li><strong>Subject Prerequisites:</strong> Completion of specific subjects may be required for certain courses.</li>
+                <li><strong>English Language Proficiency:</strong> Applicants must meet the minimum English language standards (e.g., IELTS, TOEFL, PTE scores if applicable). Details available <a href="#">here</a>.</li>
+                <li><strong>Additional Criteria:</strong> Some programs may require portfolios, interviews, or work experience.</li>
+            </ul>
+            <p style="margin-top: 15px;">Please check the specific course page for detailed requirements.</p>
+        </section>
+
+        <section class="content-section container">
+            <h2>Fees & Financial Support</h2>
+            <p>Understanding the costs involved in your studies is important. We offer transparent information on tuition fees and provide various financial support options.</p>
+             <ul style="list-style: disc; margin-left: 20px; margin-top: 15px;">
+                 <li><strong>Tuition Fees:</strong> Fee details for domestic and international students are available on each course page or via the <a href="#">fees schedule</a>.</li>
+                 <li><strong>Scholarships:</strong> We offer a range of scholarships based on merit, equity, and specific criteria. Explore available <a href="#">scholarships here</a>.</li>
+                 <li><strong>Government Assistance:</strong> Information on schemes like HECS-HELP (for eligible domestic students) can be found <a href="#">here</a>.</li>
+             </ul>
+        </section>
+        {% endblock %}

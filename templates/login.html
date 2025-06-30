@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Alpha University</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles for login page specifically (copied from previous version) */
+        body.login-page-body { background-color: #f4f7f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .login-container { background-color: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 400px; width: 100%; text-align: center; }
+        .login-container h1 { font-size: 1.8rem; margin-bottom: 1rem; color: #2d3748; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 700; color: #4a5568; }
+        .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 1rem; }
+        .form-group input:focus { outline: none; border-color: #0056b3; box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2); }
+        .login-options { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .login-options label { display: flex; align-items: center; gap: 0.5em; color: #4a5568; cursor: pointer;}
+        .login-options a { color: #0056b3; text-decoration: none; }
+        .login-options a:hover { text-decoration: underline; }
+        .login-button-full { 
+            width: 100%; 
+            padding: 0.8rem; 
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .login-button-full:not(:disabled) {
+            opacity: 1;
+        }
+        .login-button-full:hover:not(:disabled) {
+            animation: pulse 0.5s infinite alternate;
+            background-color: #004494;
+        }
+        @keyframes pulse {
+            from { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 rgba(0, 86, 179, 0.7);
+            }
+            to { 
+                transform: scale(1.02); 
+                box-shadow: 0 0 15px rgba(0, 86, 179, 0.7);
+                background-color: #003377;
+            }
+        }
+        .static-notice { font-size: 0.9em; color: #718096; margin-bottom: 1.5em; }
+        .back-link { margin-top: 1.5rem; font-size: 0.9rem; }
+        .back-link a { color: #0056b3; }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const loginButton = document.querySelector('.login-button-full');
+            
+            passwordInput.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    loginButton.disabled = false;
+                } else {
+                    loginButton.disabled = true;
+                }
+            });
+        });
+    </script>
+</head>
+<body class="login-page-body">
+    <div class="login-container">
+        <h1>Student & Staff Login</h1>
+        <p class="static-notice">
+            Backend still in progress :)
+        </p>
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", placeholder="Enter your username") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control", placeholder="Enter your password") }}
+            </div>
+            <div class="login-options">
+                <label>
+                    {{ form.remember }} Remember Me
+                </label>
+                <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+            </div>
+            <button type="submit" class="button button-primary login-button-full">Login</button>
+        </form>
+        <p class="back-link">Go back to <a href="{{ url_for('index') }}">Homepage</a>.</p>
+    </div>
+</body>
+</html>

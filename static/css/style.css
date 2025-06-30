@@ -1,0 +1,463 @@
+/* --- Global Reset & Base Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.sidebar a {
+    display: block;
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+    color: #3498db;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 20px 40px;
+}
+
+.welcome {
+    text-align: right;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Additional styles for teacher notifications */
+.notification-card {
+    background: #ffffff;
+    border-left: 5px solid #004080;
+    margin-bottom: 20px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.notification-card h3 {
+    margin-top: 0;
+    color: #004080;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.65;
+    color: #333; /* Dark grey for text */
+    background-color: #fff; /* White background */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Utility Classes --- */
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.sr-only { /* For screen reader accessibility */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- Header & Navbar --- */
+.site-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Keep navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar {
+    padding: 0.8rem 0; /* Padding applied via container */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2d3748; /* Slightly desaturated dark blue/grey */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.navbar-brand:hover {
+    color: #0056b3; /* Primary color on hover */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem; /* Space between links */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #4a5568; /* Medium grey text */
+    font-weight: 700; /* Bolder links */
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px; /* Space for potential underline */
+}
+.nav-link:hover {
+    color: #0056b3; /* Primary color */
+}
+
+/* Home Icon specific style */
+.nav-link i.fa-home {
+    font-size: 1.2rem; /* Make icon slightly larger */
+}
+
+
+/* --- Buttons --- */
+.button {
+    display: inline-flex; /* Use inline-flex for icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em; /* Space between icon and text */
+    padding: 0.6rem 1.3rem;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Prevent button text wrapping */
+}
+
+/* Login button specific style */
+.nav-login-button {
+    background-color: #0056b3; /* Primary blue */
+    color: #ffffff;
+    border-color: #0056b3;
+}
+.nav-login-button:hover {
+    background-color: #004494; /* Darker blue */
+    border-color: #004494;
+    transform: translateY(-1px); /* Subtle lift */
+}
+.nav-login-button i {
+     font-size: 0.9em; /* Adjust icon size within button if needed */
+}
+
+
+/* --- Hero Section --- */
+.hero {
+    background-color: #eaf2f8; /* Light blue/grey background */
+    /* Alternative: Image background */
+    /* background: linear-gradient(rgba(45, 55, 72, 0.6), rgba(45, 55, 72, 0.6)), url('https://via.placeholder.com/1920x800.png?text=University+Campus+Image') no-repeat center center/cover; */
+    /* color: #ffffff; */
+    padding: 100px 0; /* Generous padding */
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #2d3748; /* Use text color if background is light */
+    /* color: #ffffff; */ /* Use if background is dark image */
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #4a5568; /* Use text color if background is light */
+    /* color: #e2e8f0; */ /* Use if background is dark image */
+    max-width: 700px;
+    margin: 0 auto 1.5em auto; /* Center paragraph */
+}
+
+.cta-button { /* Specific styling for hero button */
+    background-color: #e53e3e; /* Example: Red accent */
+    color: #ffffff;
+    border-color: #e53e3e;
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+}
+.cta-button:hover {
+    background-color: #c53030; /* Darker red */
+    border-color: #c53030;
+    transform: translateY(-2px);
+}
+
+/* --- Intro Section --- */
+.intro-section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.intro-section h2 {
+    font-size: 2.2rem;
+    color: #2d3748;
+    margin-bottom: 1em;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    color: #4a5568;
+    max-width: 800px;
+    margin: 0 auto 3em auto; /* Space below intro text */
+}
+
+.highlights {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 2em;
+}
+
+.highlight-item {
+    flex-basis: 250px; /* Base width for each item */
+    text-align: center;
+}
+
+.highlight-icon {
+    font-size: 2.5rem;
+    color: #0056b3; /* Primary color for icons */
+    margin-bottom: 0.5em;
+}
+
+.highlight-item h3 {
+    font-size: 1.3rem;
+    color: #2d3748;
+    margin-bottom: 0.5em;
+}
+
+.highlight-item p {
+    font-size: 0.95rem;
+    color: #4a5568;
+}
+
+
+/* --- Footer --- */
+.site-footer {
+    background-color: #2d3748; /* Dark footer background */
+    color: #a0aec0; /* Light grey text */
+    padding: 2.5rem 0;
+    margin-top: auto; /* Push footer to bottom */
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Ensure html and body take full height and use flex layout */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Make main take remaining space */
+main {
+    flex: 1 0 auto;
+}
+
+
+/* --- Mobile Menu Toggle --- */
+.mobile-menu-toggle {
+    display: none; /* Hide by default */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .nav-links {
+        gap: 1.5rem; /* Reduce gap between links */
+    }
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    .intro-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide links by default on mobile */
+        /* Add styles for when menu is open (flex-direction: column, etc.) - requires JS */
+        position: absolute;
+        top: 100%; /* Position below header */
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        flex-direction: column;
+        padding: 1rem 0;
+        gap: 0; /* Reset gap for column layout */
+        border-top: 1px solid #eee;
+    }
+     /* Basic style for when menu is opened via JS adding a class 'active' */
+    .nav-links.active {
+         display: flex;
+    }
+
+    .nav-links li {
+         width: 100%;
+         text-align: center;
+    }
+     .nav-link {
+         display: block; /* Make links take full width */
+         padding: 0.8rem 1rem;
+         border-bottom: 1px solid #f7f7f7;
+     }
+     .nav-link:hover {
+          background-color: #f7f7f7;
+     }
+    .nav-link i.fa-home { /* Adjust icon padding if needed */
+         margin-right: 0.5em;
+    }
+    .sr-only { /* Show text next to home icon on mobile */
+        position: static;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+        margin-left: 0.3em;
+    }
+
+    .nav-login-button {
+        margin-left: auto; /* Push login button to the right, before toggle */
+        margin-right: 1rem; /* Space before toggle */
+         padding: 0.5rem 1rem; /* Slightly smaller button */
+         font-size: 0.85rem;
+    }
+
+    .mobile-menu-toggle {
+        display: block; /* Show hamburger icon */
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    .hero-content p {
+        font-size: 1rem;
+    }
+    .cta-button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.5rem;
+    }
+    .intro-section h2 {
+        font-size: 1.8rem;
+    }
+    .intro-text {
+        font-size: 1rem;
+    }
+    .highlights {
+        flex-direction: column; /* Stack highlights vertically */
+        align-items: center;
+        gap: 40px;
+    }
+}
+/* --- Add these to static/css/style.css if missing --- */
+
+.contact-grid { /* Or .contact-container if you used that */
+    display: grid;
+    grid-template-columns: 1fr; /* Default stack */
+    gap: 40px; /* Adjust gap */
+    margin-top: 2rem; /* Example spacing */
+}
+
+@media (min-width: 768px) {
+    .contact-grid {
+         grid-template-columns: 1fr 1.5fr; /* Side-by-side on larger screens */
+    }
+}
+
+.contact-details h2, /* Styles for headings if needed */
+.contact-form-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem; /* Adjust size */
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #4a5568; /* Example color */
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc; /* Example border */
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+/* Add focus styles if needed */
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+/* --- End additions --- */
+

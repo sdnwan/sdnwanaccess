@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Add New User - Alpha University</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #34495e;
+        }
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"],
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 1.2rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        form button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: #1c5980;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New User</h1>
+        <form method="POST" action="{{ url_for('add_user') }}">
+            {{ form.hidden_tag() }}
+            <label for="first_name">First Name</label>
+            {{ form.first_name(class="form-control", id="first_name", placeholder="Enter first name") }}
+
+            <label for="last_name">Last Name</label>
+            {{ form.last_name(class="form-control", id="last_name", placeholder="Enter last name") }}
+
+            <label for="address">Address</label>
+            {{ form.address(class="form-control", id="address", placeholder="Enter address") }}
+
+            <label for="email">Email</label>
+            {{ form.email(class="form-control", id="email", placeholder="Enter email") }}
+
+            <label for="phone">Phone Number</label>
+            {{ form.phone(class="form-control", id="phone", placeholder="Enter phone number") }}
+
+            <label for="course_major">Course Major</label>
+            {{ form.course_major(class="form-control", id="course_major", placeholder="Enter course major") }}
+
+            <label for="username">Username</label>
+            {{ form.username(class="form-control", id="username", placeholder="Enter username") }}
+
+            <label for="password">Password</label>
+            {{ form.password(class="form-control", id="password", placeholder="Enter password") }}
+
+            <label for="role">Role</label>
+            {{ form.role(class="form-control", id="role") }}
+
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Alpha University{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+    {% block top_nav %}
+    <header class="site-header">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="{{ url_for('index') }}" class="navbar-brand">Alpha University</a>
+                <ul class="nav-links">
+                    <li>
+                        <a href="{{ url_for('index') }}" class="nav-link" title="Home">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <span class="sr-only">Home</span>
+                        </a>
+                    </li>
+                    <li><a href="{{ url_for('courses') }}" class="nav-link">Courses</a></li>
+                    <li><a href="{{ url_for('admissions') }}" class="nav-link">Admissions</a></li>
+                    <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="{{ url_for('login') }}" class="button nav-login-button" title="Login">
+                    <i class="fas fa-lock" aria-hidden="true"></i> Login
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+    </header>
+    {% endblock %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span class="current-year"></span> Alpha University. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.querySelectorAll('.current-year').forEach(span => {
+            span.textContent = new Date().getFullYear();
+        });
+        // Add JS for mobile menu toggle functionality here if needed
+        // Example: Add this if you create static/js/script.js for menu toggle
+        // const menuToggle = document.querySelector('.mobile-menu-toggle');
+        // const navLinks = document.querySelector('.nav-links');
+        // if (menuToggle && navLinks) {
+        //     menuToggle.addEventListener('click', () => {
+        //         navLinks.classList.toggle('active');
+        //     });
+        // }
+    </script>
+    {% block scripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Courses - Alpha University{% endblock %}
+
+{% block content %}
+    <section class="page-title-section" style="background-color: #f4f7f8; padding: 40px 0; text-align: center; margin-bottom: 40px;">
+        <div class="container">
+            <h1>Explore Our Programs</h1>
+            <p>Find the perfect course to launch or advance your career.</p>
+        </div>
+    </section>
+
+    <section class="content-section container">
+        <h2>Programs by Faculty</h2>
+        <p>Our diverse range of programs is structured across several faculties, each specializing in distinct fields of study. Click on a faculty to explore its specific course offerings.</p>
+        <div class="faculty-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 30px;">
+            <div class="faculty-card" style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                 <i class="fas fa-paint-brush" style="font-size: 2.5rem; color: #0056b3; margin-bottom: 15px;"></i>
+                 <h3>Arts & Humanities</h3>
+                 <p>Explore literature, history, philosophy, languages, and creative arts.</p>
+                 <a href="#" class="button" style="margin-top: 15px; background-color: #eee; color:#333; border-color:#eee;">View Courses</a>
+            </div>
+            <div class="faculty-card" style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                 <i class="fas fa-atom" style="font-size: 2.5rem; color: #0056b3; margin-bottom: 15px;"></i>
+                 <h3>Science & Engineering</h3>
+                 <p>Delve into physics, biology, chemistry, computer science, and various engineering disciplines.</p>
+                 <a href="#" class="button" style="margin-top: 15px; background-color: #eee; color:#333; border-color:#eee;">View Courses</a>
+            </div>
+            <div class="faculty-card" style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                 <i class="fas fa-briefcase" style="font-size: 2.5rem; color: #0056b3; margin-bottom: 15px;"></i>
+                 <h3>Business & Economics</h3>
+                 <p>Study management, marketing, finance, accounting, and economic principles.</p>
+                 <a href="#" class="button" style="margin-top: 15px; background-color: #eee; color:#333; border-color:#eee;">View Courses</a>
+            </div>
+             <div class="faculty-card" style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                 <i class="fas fa-heartbeat" style="font-size: 2.5rem; color: #0056b3; margin-bottom: 15px;"></i>
+                 <h3>Health Sciences</h3>
+                 <p>Explore nursing, public health, physiotherapy, and other health-related fields.</p>
+                 <a href="#" class="button" style="margin-top: 15px; background-color: #eee; color:#333; border-color:#eee;">View Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container" style="background-color: #f9f9f9; padding: 40px 20px; margin-top:40px; border-radius: 8px;">
+         <h2>Study Levels</h2>
+         <p>We offer programs at various levels to suit your academic journey:</p>
+        <ul style="list-style: disc; margin-left: 20px; margin-top: 15px;">
+            <li><strong>Undergraduate Degrees:</strong> Bachelor's programs providing foundational knowledge.</li>
+            <li><strong>Postgraduate Coursework:</strong> Master's degrees, Graduate Diplomas, and Certificates for specialization.</li>
+            <li><strong>Research Degrees:</strong> PhD and Master's by Research programs for advanced scholarly work.</li>
+            <li><strong>Short Courses & Professional Development:</strong> Upskill or explore new areas with focused short programs.</li>
+        </ul>
+     </section>
+{% endblock %}

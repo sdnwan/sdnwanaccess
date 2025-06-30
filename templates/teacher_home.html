@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block head_extra %}{% endblock %}
+
+{% block top_nav %}{% endblock %}
+
+{% block content %}
+<header class="site-header">
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="navbar-brand">Alpha University</a>
+  </nav>
+</header>
+
+<main>
+  <section class="dashboard">
+    <h1>Welcome, Teacher!</h1>
+
+    <!-- Notifications -->
+    <div class="notification-card">
+      <h3>📢 Attention Teachers: Results Publication Rescheduled</h3>
+      <p><strong>Notice:</strong> Semester 1 Block 3 and 8-Week Block 3 result publication has been rescheduled to <strong>Monday 28 April</strong> due to the Easter and ANZAC holidays. We appreciate your patience.</p>
+      <p>Questions? Contact us via ASKAL or call +61 3 9919 6100.</p>
+    </div>
+
+    <div class="notification-card">
+      <h3>📢 Unit & Course Feedback</h3>
+      <p>Please make sure your students complete your unit evaluation surveys. No personal information is shared with eXplorance Inc or any external party.</p>
+      <p>Need help? Email us at <a href="mailto:alphasurveys@al.edu.au">alphasurveys@al.edu.au</a></p>
+    </div>
+
+    <div class="notification-card">
+      <h3>📢 Access to Upcoming Enrolled Units</h3>
+      <p>Ensure your course list is updated for Semester 1. Delivery spaces are live and accessible.</p>
+    </div>
+
+    <!-- Delivery Spaces -->
+    <div class="units-section" style="background-color: #f9f9f9; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">My Delivery Spaces</h2>
+      <div class="unit-list" style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <a href="{{ url_for('course_detail', course_id='PROG1001') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(PROG1001)</strong> Programming Language - Ends Aug 5, 2025
+        </a>
+        <a href="{{ url_for('course_detail', course_id='NET2002') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(NET2002)</strong> Networking - Ends Jul 15, 2025
+        </a>
+        <a href="{{ url_for('course_detail', course_id='WEB3011') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(WEB3011)</strong> Front-end Development - Ends Sep 10, 2025
+        </a>
+        <a href="{{ url_for('course_detail', course_id='DBM2023') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(DBM2023)</strong> Database Systems - Ends Oct 1, 2025
+        </a>
+        <a href="{{ url_for('course_detail', course_id='NORM2100') }}" class="unit-box closed" style="flex: 1 1 calc(50% - 15px); background-color: #f8d7da; border-left: 5px solid #dc3545; padding: 15px; color: #721c24; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(NORM2100)</strong> Data Normalization (Closed) - Ends Nov 18, 2025
+        </a>
+        <a href="{{ url_for('course_detail', course_id='NIT1102') }}" class="unit-box closed" style="flex: 1 1 calc(50% - 15px); background-color: #f8d7da; border-left: 5px solid #dc3545; padding: 15px; color: #721c24; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(NIT1102)</strong> Introduction to Programming (Closed) - Ended Mar 10, 2023
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

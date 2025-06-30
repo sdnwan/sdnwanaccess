@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block head_extra %}{% endblock %}
+
+{% block top_nav %}{% endblock %}
+
+{% block content %}
+<header class="site-header">
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="navbar-brand">Alpha University</a>
+  </nav>
+</header>
+
+<main>
+  <section class="dashboard">
+    <h1>Welcome, Student!</h1>
+
+    <!-- Notifications -->
+    <div class="notification-card">
+      <h3>📢 Result Update</h3>
+      <p>Your results for Semester 1 Block 2 will be available from <strong>Monday 28 April</strong>. Delayed due to public holidays. Thank you for your patience.</p>
+    </div>
+
+    <div class="notification-card">
+      <h3>📢 Feedback Reminder</h3>
+      <p>Please complete your unit feedback surveys. Your voice helps improve the learning experience!</p>
+    </div>
+
+    <div class="notification-card">
+      <h3>📢 New Quiz Available</h3>
+      <p>Quiz 2 for Programming Language is now open until July 5. Don’t miss the deadline!</p>
+    </div>
+
+    <!-- Enrolled Units -->
+    <div class="units-section" style="background-color: #f9f9f9; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">My Enrolled Units</h2>
+      <div class="unit-list" style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <a href="{{ url_for('student_course_detail', course_id='PROG1001') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(PROG1001)</strong> Programming Language - Ends Aug 5, 2025
+        </a>
+        <a href="{{ url_for('student_course_detail', course_id='ICT2002') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(ICT2002)</strong> ICT Management - Ends Jul 15, 2025
+        </a>
+        <a href="{{ url_for('student_course_detail', course_id='OP3011') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(OP3011)</strong> Operating Systems - Ends Sep 10, 2025
+        </a>
+        <a href="{{ url_for('student_course_detail', course_id='DBM2023') }}" class="unit-box" style="flex: 1 1 calc(50% - 15px); background-color: #ffffff; border-left: 5px solid #3498db; padding: 15px; color: #2c3e50; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(DBM2023)</strong> Database Systems - Ends Oct 1, 2025
+        </a>
+        <a href="{{ url_for('student_course_detail', course_id='BG2100') }}" class="unit-box closed" style="flex: 1 1 calc(50% - 15px); background-color: #f8d7da; border-left: 5px solid #dc3545; padding: 15px; color: #721c24; font-weight: 700; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.3s ease;">
+          <strong>(BG2100)</strong> Big Data (Closed) - Ended Mar 10, 2024
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

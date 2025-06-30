@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}Course Detail - {{ course_id }} - Alpha University{% endblock %}
+
+{% block content %}
+<div style="display: flex; max-width: 1000px; margin: 20px auto;">
+
+  <nav class="sidebar" style="width: 220px; background-color: #f4f4f4; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-right: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px;">Course Navigation</h3>
+    <ul style="list-style: none; padding-left: 0;">
+      <li><a href="javascript:void(0);" onclick="showSection('overviewSection')" style="color: #3498db; text-decoration: none; font-weight: 700;">Overview</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('uploadForm')" style="color: #3498db; text-decoration: none; cursor: pointer;">Upload Lectures</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('announcementsSection')" style="color: #3498db; text-decoration: none;">Announcements</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('gradesSection')" style="color: #3498db; text-decoration: none;">Grades</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('testsSection')" style="color: #3498db; text-decoration: none;">Tests</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('assignmentsSection')" style="color: #3498db; text-decoration: none;">Assignments</a></li>
+    </ul>
+  </nav>
+
+  <section id="overviewSection" class="dashboard" style="flex-grow: 1; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Course Detail: {{ course_id }}</h1>
+
+    <div class="unit-description" style="margin-bottom: 20px;">
+      <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Unit Description</h2>
+      <p>{{ unit_description or "No description available for this unit." }}</p>
+    </div>
+
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Lecture Files</h2>
+    {% if lecture_files %}
+      <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 20px;">
+        {% for file in lecture_files %}
+          <li><a href="{{ url_for('uploaded_file', course_id=course_id, filename=file) }}" target="_blank" style="color: #3498db; text-decoration: none;">{{ file }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p style="color: #7f8c8d; font-style: italic; margin-bottom: 20px;">No lecture files uploaded yet.</p>
+    {% endif %}
+
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Lecture Notes</h2>
+    {% if lecture_notes %}
+      <pre style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 20px;">{{ lecture_notes }}</pre>
+    {% else %}
+      <p style="color: #7f8c8d; font-style: italic; margin-bottom: 20px;">No lecture notes available.</p>
+    {% endif %}
+
+  </section>
+</div>
+
+<script>
+  function showSection(sectionId) {
+    const sections = ['overviewSection', 'uploadForm', 'announcementsSection', 'gradesSection', 'testsSection', 'assignmentsSection'];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = (id === sectionId) ? 'block' : 'none';
+      }
+    });
+  }
+</script>
+
+<div style="max-width: 1000px; margin: 20px auto;">
+  <section id="uploadForm" style="display: none; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Upload and Modify Course Lectures</h2>
+    <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 15px;">
+      <div style="display: flex; flex-direction: column;">
+        <label for="course_id" style="font-weight: 600; margin-bottom: 5px;">Course ID:</label>
+        <input type="text" id="course_id" name="course_id" value="{{ course_id }}" required readonly style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="lecture_file" style="font-weight: 600; margin-bottom: 5px;">Upload Lecture File:</label>
+        <input type="file" id="lecture_file" name="lecture_file" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="lecture_notes" style="font-weight: 600; margin-bottom: 5px;">Lecture Notes / Content:</label>
+        <textarea id="lecture_notes" name="lecture_notes" rows="10" cols="50" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;">{{ lecture_notes or '' }}</textarea>
+      </div>
+      <button type="submit" style="background-color: #3498db; color: white; padding: 12px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
+    </form>
+  </section>
+  <section id="announcementsSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Announcements for Course: {{ course_id }}</h1>
+    <form method="POST" action="{{ url_for('upload_announcement') }}" style="display: flex; flex-direction: column; gap: 15px;">
+      <input type="hidden" name="course_id" value="{{ course_id }}" />
+      <div style="display: flex; flex-direction: column;">
+        <label for="announcement_title" style="font-weight: 600; margin-bottom: 5px;">Title:</label>
+        <input type="text" id="announcement_title" name="announcement_title" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="announcement_content" style="font-weight: 600; margin-bottom: 5px;">Content:</label>
+        <textarea id="announcement_content" name="announcement_content" rows="6" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+      </div>
+      <button type="submit" style="background-color: #3498db; color: white; padding: 12px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease;">Submit Announcement</button>
+    </form>
+  </section>
+  <section id="gradesSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Grades for Course: {{ course_id }}</h1>
+    <p>Grades data will be displayed here.</p>
+  </section>
+  <section id="testsSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Tests for Course: {{ course_id }}</h1>
+    <p>Tests data will be displayed here.</p>
+  </section>
+  <section id="assignmentsSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Assignments for Course: {{ course_id }}</h1>
+    <p>Assignments data will be displayed here.</p>
+  </section>
+</div>
+{% endblock %}

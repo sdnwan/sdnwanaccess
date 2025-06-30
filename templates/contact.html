@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}Contact - Alpha University{% endblock %}
+
+{% block content %}
+        <section class="page-title-section" style="background-color: #f4f7f8; padding: 40px 0; text-align: center; margin-bottom: 40px;">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>We are here to assist you. Reach out through the channels below.</p>
+            </div>
+        </section>
+
+        <section class="content-section container">
+            <div class="contact-grid">
+                <div class="contact-details">
+                    <h2>Contact Information</h2>
+                    <p>For general inquiries, admissions help, or specific departments, please use the details below.</p>
+
+                    <h3><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Main Campus Address</h3>
+                    <p>
+                        Alpha University<br>
+                        1 Innovation Drive<br>
+                        Sydney, NSW 2000<br>
+                        Australia
+                    </p>
+
+                    <h3><i class="fas fa-phone" style="margin-right: 8px;"></i> Phone</h3>
+                    <p>General Enquiries: +61 2 9123 4567 (Mon-Fri, 9am-5pm AEST)</p>
+                    <p>Future Students: +61 2 9123 4568</p>
+
+                    <h3><i class="fas fa-envelope" style="margin-right: 8px;"></i> Email</h3>
+                    <p>General: <a href="mailto:info@alphauni.example.edu">info@alphauni.example.edu</a></p>
+                    <p>Admissions: <a href="mailto:admissions@alphauni.example.edu">admissions@alphauni.example.edu</a></p>
+
+                     <h3><i class="fas fa-clock" style="margin-right: 8px;"></i> Office Hours</h3>
+                     <p>Monday - Friday: 9:00 AM - 5:00 PM AEST (Sydney Time)</p>
+                </div>
+
+                <div class="contact-form-section">
+                    <h2>Send a Message (Demonstration)</h2>
+                    <p style="font-size: 0.9em; color: #777; margin-bottom: 1.5em;">
+                        Please note: This form is for demonstration purposes only and is not connected to a backend system. Use the email or phone details provided to contact us.
+                    </p>
+                    <form id="contact-form-demo" novalidate>
+                         <div class="form-group">
+                             <label for="contact-name">Your Name</label>
+                             <input type="text" id="contact-name" name="name" required placeholder="e.g., Jane Doe">
+                         </div>
+                         <div class="form-group">
+                             <label for="contact-email">Your Email</label>
+                             <input type="email" id="contact-email" name="email" required placeholder="e.g., jane.doe@email.com">
+                         </div>
+                          <div class="form-group">
+                             <label for="contact-subject">Subject</label>
+                             <input type="text" id="contact-subject" name="subject" required placeholder="e.g., Question about Admissions">
+                         </div>
+                         <div class="form-group">
+                             <label for="contact-message">Your Message</label>
+                             <textarea id="contact-message" name="message" rows="5" required placeholder="Enter your message here..."></textarea>
+                         </div>
+                         <button type="submit" class="button" style="background-color: #ccc; border-color: #ccc; cursor: not-allowed;" disabled>Send Message (Disabled)</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+         <section class="content-section container" style="margin-top: 40px; text-align: center;">
+            <h2>Visit Us</h2>
+             <div class="map-placeholder" style="margin-top: 20px; border: 1px solid #eee; padding: 10px;">
+                  <img src="https://via.placeholder.com/800x400.png?text=Campus+Map+Location" alt="Map showing Alpha University location" style="max-width: 100%; height: auto;">
+            </div>
+        </section>
+        {% endblock %}

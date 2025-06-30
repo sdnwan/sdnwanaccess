@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Course Detail - {{ course_id }} - Alpha University{% endblock %}
+
+{% block content %}
+<div style="display: flex; max-width: 1000px; margin: 20px auto;">
+
+  <nav class="sidebar" style="width: 220px; background-color: #f4f4f4; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-right: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px;">Course Navigation</h3>
+    <ul style="list-style: none; padding-left: 0;">
+      <li><a href="javascript:void(0);" onclick="showSection('overviewSection')" style="color: #3498db; text-decoration: none; font-weight: 700;">Overview</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('announcementsSection')" style="color: #3498db; text-decoration: none;">Announcements</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('gradesSection')" style="color: #3498db; text-decoration: none;">Grades</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('testsSection')" style="color: #3498db; text-decoration: none;">Tests</a></li>
+      <li><a href="javascript:void(0);" onclick="showSection('assignmentsSection')" style="color: #3498db; text-decoration: none;">Assignments</a></li>
+    </ul>
+  </nav>
+
+  <section id="overviewSection" class="dashboard" style="flex-grow: 1; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Course Detail: {{ course_id }}</h1>
+
+    <div class="unit-description" style="margin-bottom: 20px;">
+      <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Unit Description</h2>
+      <p>{{ unit_description or "No description available for this unit." }}</p>
+    </div>
+
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Lecture Files</h2>
+    {% if lecture_files %}
+      <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 20px;">
+        {% for file in lecture_files %}
+          <li><a href="{{ url_for('uploaded_file', course_id=course_id, filename=file) }}" target="_blank" style="color: #3498db; text-decoration: none;">{{ file }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p style="color: #7f8c8d; font-style: italic; margin-bottom: 20px;">No lecture files uploaded yet.</p>
+    {% endif %}
+
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">Lecture Notes</h2>
+    {% if lecture_notes %}
+      <pre style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 20px;">{{ lecture_notes }}</pre>
+    {% else %}
+      <p style="color: #7f8c8d; font-style: italic; margin-bottom: 20px;">No lecture notes available.</p>
+    {% endif %}
+  </section>
+</div>
+
+<script>
+  function showSection(sectionId) {
+    const sections = ['overviewSection', 'announcementsSection', 'gradesSection', 'testsSection', 'assignmentsSection'];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = (id === sectionId) ? 'block' : 'none';
+      }
+    });
+  }
+</script>
+
+<div style="max-width: 1000px; margin: 20px auto;">
+  <section id="announcementsSection" style="display: none; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Announcements</h2>
+    <p>Announcements content will be displayed here.</p>
+  </section>
+  <section id="gradesSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Grades</h2>
+    <p>Grades content will be displayed here.</p>
+  </section>
+  <section id="testsSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Tests</h2>
+    <p>Tests content will be displayed here.</p>
+  </section>
+  <section id="assignmentsSection" style="display: none; max-width: 800px; background-color: #f9f9f9; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px;">Assignments</h2>
+    <p>Assignments content will be displayed here.</p>
+  </section>
+</div>
+{% endblock %}
