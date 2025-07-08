@@ -7,6 +7,10 @@ from itsdangerous import URLSafeTimedSerializer
 from datetime import timedelta
 import os
 from config import Config
+import logging 
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -28,9 +32,14 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
+        logging.debug(f"[User.set_password] Plain password: {password}")
+        logging.debug(f"[User.set_password] Hashed password: {self.password_hash}")
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        logging.debug(f"[User.check_password] Stored hash for user '{self.username}': {self.password_hash}")
+        result = check_password_hash(self.password_hash, password)
+        logging.debug(f"[User.check_password] Checking password for user '{self.username}': {result}")
+        return result
 
 # --- Helper Functions ---
 def send_reset_email(user_email, reset_url):
@@ -192,11 +201,628 @@ def index():
   # Looks for 'index.html' in the 'templates' folder
   return render_template('index.html')
 
+# Data structure for faculties and courses
+faculties = [
+    {
+        'name': 'Arts & Humanities',
+        'icon': 'fas fa-paint-brush',
+        'description': 'Explore literature, history, philosophy, languages, and creative arts.',
+        'courses': {
+            'Undergraduate': [
+                {
+                    'code': 'BA101',
+                    'name': 'Bachelor of Arts',
+                    'description': 'Comprehensive study in arts including literature, history, and philosophy.',
+                    'credits': 144,
+                    'prerequisites': 'High School Diploma or equivalent',
+                    'learning_outcomes': [
+                        'Develop critical thinking and analytical skills.',
+                        'Understand cultural and historical contexts.',
+                        'Communicate effectively in written and oral forms.'
+                    ],
+                    'assessment_methods': [
+                        'Essays',
+                        'Presentations',
+                        'Exams',
+                        'Research Projects'
+                    ],
+                    'course_structure': [
+                        {'name': 'Foundations of Art History', 'overview': 'Introduction to the history and development of art from ancient to modern times.'},
+                        {'name': 'Prehistoric and Ancient Art', 'overview': 'Study of art from prehistoric periods through ancient civilizations.'},
+                        {'name': 'Medieval Art and Architecture', 'overview': 'Exploration of art and architecture during the medieval period.'},
+                        {'name': 'Renaissance Art and Culture', 'overview': 'Examination of Renaissance art, culture, and its impact.'},
+                        {'name': 'Baroque and Rococo Art', 'overview': 'Analysis of Baroque and Rococo artistic movements.'},
+                        {'name': 'Neoclassical Art', 'overview': 'Study of Neoclassical art and its principles.'},
+                        {'name': 'Romanticism and Realism', 'overview': 'Exploration of Romantic and Realist art styles.'},
+                        {'name': 'Impressionism and Post-Impressionism', 'overview': 'Study of Impressionist and Post-Impressionist artists and techniques.'},
+                        {'name': 'Modern Art Movements', 'overview': 'Overview of major modern art movements and their characteristics.'},
+                        {'name': 'Contemporary Art Practices', 'overview': 'Examination of contemporary art and current practices.'},
+                        {'name': 'Art Criticism and Theory', 'overview': 'Introduction to art criticism and theoretical frameworks.'},
+                        {'name': 'Museum and Gallery Studies', 'overview': 'Study of museum and gallery management and curation.'},
+                        {'name': 'Digital Media in Art', 'overview': 'Exploration of digital technologies in art creation and presentation.'},
+                        {'name': 'Photography Techniques', 'overview': 'Fundamentals of photography and visual storytelling.'},
+                        {'name': 'Sculpture and Installation Art', 'overview': 'Study of three-dimensional art forms and installations.'},
+                        {'name': 'Printmaking Processes', 'overview': 'Techniques and history of printmaking.'},
+                        {'name': 'Visual Culture Studies', 'overview': 'Analysis of visual culture and media.'},
+                        {'name': 'Conservation and Restoration', 'overview': 'Principles and practices of art conservation.'},
+                        {'name': 'Art History Research Methods', 'overview': 'Research methodologies specific to art history.'},
+                        {'name': 'Seminar in Art History', 'overview': 'Advanced discussions on specialized art history topics.'},
+                        {'name': 'Special Topics in Art History', 'overview': 'Exploration of selected topics in art history.'},
+                        {'name': 'Independent Research Project', 'overview': 'Conducting independent research in art history.'},
+                        {'name': 'Capstone Project in Art History', 'overview': 'Comprehensive project demonstrating mastery in art history.'},
+                        {'name': 'Professional Practice in Art', 'overview': 'Preparation for professional careers in the art field.'}
+                    ]
+                },
+                {
+                    'code': 'BA202',
+                    'name': 'Bachelor of Literature',
+                    'description': 'In-depth study of world literature and critical analysis.',
+                    'credits': 144,
+                    'prerequisites': 'High School Diploma or equivalent',
+                    'learning_outcomes': [
+                        'Identify key literary genres and themes.',
+                        'Interpret texts from multiple cultural perspectives.',
+                        'Enhance analytical writing skills.'
+                    ],
+                    'assessment_methods': [
+                        'Critical essays',
+                        'Class discussions',
+                        'Midterm and final exams'
+                    ],
+                    'course_structure': [
+                        'Classical Literature',
+                        'Medieval Literature',
+                        'Modern Literature',
+                        'Postmodern Literature',
+                        'Contemporary Global Literature'
+                    ]
+                },
+                {
+                    'code': 'BA105',
+                    'name': 'Bachelor of History',
+                    'description': 'Comprehensive study of modern history from the 18th century to present.',
+                    'credits': 144,
+                    'prerequisites': 'High School Diploma or equivalent',
+                    'learning_outcomes': [
+                        'Understand major historical events and trends.',
+                        'Analyze causes and effects of global conflicts.',
+                        'Develop research skills in history.'
+                    ],
+                    'assessment_methods': [
+                        'Research papers',
+                        'Examinations',
+                        'Group projects'
+                    ],
+                    'course_structure': [
+                        'Enlightenment and Revolutions',
+                        'Industrialization and Imperialism',
+                        'World Wars',
+                        'Contemporary History'
+                    ]
+                }
+            ],
+            'Postgraduate Coursework': [
+                {
+                    'code': 'MA303',
+                    'name': 'Master of Arts in Ethics and Philosophy',
+                    'description': 'Advanced examination of major ethical theories and philosophical ideas.',
+                    'credits': 48,
+                    'prerequisites': 'Bachelor of Arts or equivalent',
+                    'learning_outcomes': [
+                        'Critically analyze ethical theories.',
+                        'Develop advanced philosophical arguments.',
+                        'Conduct independent research.'
+                    ],
+                    'assessment_methods': [
+                        'Essays',
+                        'Seminars',
+                        'Thesis'
+                    ],
+                    'course_structure': [
+                        {'name': 'Ethical Theory', 'overview': 'An in-depth study of fundamental ethical principles, moral philosophy, and their application to contemporary issues, enabling students to critically evaluate moral arguments and develop their own ethical viewpoints.'},
+                        {'name': 'Philosophy of Mind', 'overview': 'Explores the nature of consciousness, mental states, and the mind-body problem, including theories of perception, cognition, and personal identity.'},
+                        {'name': 'Political Philosophy', 'overview': 'Analyzes political systems, concepts of justice, rights, liberty, and the role of the state, with a focus on classical and contemporary political theories.'},
+                        {'name': 'Philosophy of Science', 'overview': 'Investigates the foundations, methods, and implications of science, including the nature of scientific explanation, theory change, and scientific realism.'},
+                        {'name': 'Research Methods in Philosophy', 'overview': 'Provides training in philosophical research techniques, critical analysis, argumentation, and academic writing necessary for advanced scholarship.'},
+                        {'name': 'Advanced Logic', 'overview': 'Studies formal logical systems, symbolic logic, and reasoning techniques, emphasizing their application in philosophical argumentation and problem-solving.'},
+                        {'name': 'Metaphysics', 'overview': 'Explores fundamental questions about existence, reality, causality, time, and space, examining various metaphysical theories and debates.'},
+                        {'name': 'Philosophy of Language', 'overview': 'Examines the nature of language, meaning, reference, and communication, including theories of semantics and pragmatics.'},
+                        {'name': 'Philosophy of Religion', 'overview': 'Critically evaluates religious beliefs, arguments for and against the existence of God, and the problem of evil, among other topics.'},
+                        {'name': 'Contemporary Moral Issues', 'overview': 'Engages with current ethical dilemmas such as bioethics, environmental ethics, and social justice, encouraging applied ethical reasoning.'},
+                        {'name': 'Philosophy of Art', 'overview': 'Analyzes aesthetic theory, the nature of art, interpretation, and criticism, exploring various art forms and their cultural significance.'},
+                        {'name': 'Philosophy of History', 'overview': 'Studies the nature of historical knowledge, interpretation, and the philosophy of historiography.'},
+                        {'name': 'Philosophy of Education', 'overview': 'Examines educational theories, the aims of education, and the ethical and political issues in education.'},
+                        {'name': 'Philosophy of Law', 'overview': 'Explores legal systems, jurisprudence, the nature of law, and the relationship between law and morality.'},
+                        {'name': 'Philosophy of Science Seminar', 'overview': 'Advanced seminar discussions on contemporary topics and debates in the philosophy of science.'}
+                        ],
+                },
+                {
+                    'code': 'MLIT401',
+                    'name': 'Master of Literature in Contemporary Literary Theory',
+                    'description': 'Advanced study of literary criticism and theory.',
+                    'credits': 48,
+                    'prerequisites': 'Bachelor of Literature or equivalent',
+                    'learning_outcomes': [
+                        'Apply contemporary literary theories.',
+                        'Conduct critical literary analysis.',
+                        'Produce scholarly research.'
+                    ],
+                    'assessment_methods': [
+                        'Research papers',
+                        'Presentations',
+                        'Thesis'
+                    ],
+                    'course_structure': [
+                        'Critical Theory',
+                        'Postcolonial Literature',
+                        'Feminist Literary Criticism',
+                        'Narrative Theory',
+                        'Research Methods in Literature',
+                        'Modernist Literature',
+                        'Postmodern Literature',
+                        'Literature and Philosophy',
+                        'Literature and Psychology',
+                        'Literature and Gender Studies',
+                        'Comparative Literature',
+                        'Literary Theory Seminar',
+                        'Digital Humanities',
+                        'Thesis Preparation',
+                        'Independent Research',
+                        'Advanced Literary Criticism'
+                    ]
+                }
+            ],
+            'Research Degrees': [
+                {
+                    'code': 'PhD501',
+                    'name': 'PhD in Art History',
+                    'description': 'Doctoral research in art history methodologies.',
+                    'credits': 72,
+                    'prerequisites': 'Master’s degree in Art History or related field',
+                    'learning_outcomes': [
+                        'Conduct original research.',
+                        'Publish academic papers.',
+                        'Contribute to art history scholarship.'
+                    ],
+                    'assessment_methods': [
+                        'Dissertation',
+                        'Oral defense'
+                    ],
+                    'course_structure': [
+                        'Research Project',
+                        'Academic Writing',
+                        'Teaching Practicum'
+                    ]
+                }
+            ],
+            'Diploma': [
+                {
+                    'code': 'DIP101',
+                    'name': 'Diploma in Creative Writing',
+                    'description': 'Comprehensive diploma program focusing on creative writing skills development.',
+                    'credits': 24,
+                    'prerequisites': 'High School Diploma or equivalent',
+                    'learning_outcomes': [
+                        'Develop creative writing techniques.',
+                        'Understand narrative structures.',
+                        'Produce original written works.'
+                    ],
+                    'assessment_methods': [
+                        'Writing assignments',
+                        'Workshops',
+                        'Portfolio submission'
+                    ],
+                    'course_structure': [
+                        'Introduction to Creative Writing',
+                        'Poetry and Prose',
+                        'Narrative Techniques',
+                        'Writing Workshops',
+                        'Literary Analysis',
+                        'Final Portfolio'
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        'name': 'Science & Engineering',
+        'icon': 'fas fa-atom',
+        'description': 'Delve into physics, biology, chemistry, computer science, and various engineering disciplines.',
+        'courses': {
+            'Undergraduate': [
+                {
+                    'code': 'PHY101',
+                    'name': 'General Physics',
+                    'description': 'Fundamentals of mechanics, thermodynamics, and electromagnetism.',
+                    'credits': 12,
+                    'prerequisites': 'High School Physics',
+                    'learning_outcomes': [
+                        'Understand basic principles of physics.',
+                        'Apply physics concepts to real-world problems.',
+                        'Develop laboratory skills.'
+                    ],
+                    'assessment_methods': [
+                        'Lab reports',
+                        'Midterm exams',
+                        'Final exams'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Mechanics',
+                        'Week 5-8: Thermodynamics',
+                        'Week 9-12: Electromagnetism'
+                    ]
+                },
+                {
+                    'code': 'CS201',
+                    'name': 'Data Structures and Algorithms',
+                    'description': 'Core concepts in computer science and programming.',
+                    'credits': 12,
+                    'prerequisites': 'Introduction to Programming',
+                    'learning_outcomes': [
+                        'Implement common data structures.',
+                        'Analyze algorithm efficiency.',
+                        'Solve computational problems.'
+                    ],
+                    'assessment_methods': [
+                        'Programming assignments',
+                        'Quizzes',
+                        'Exams'
+                    ],
+                    'course_structure': [
+                        'Week 1-3: Arrays and Linked Lists',
+                        'Week 4-6: Trees and Graphs',
+                        'Week 7-9: Sorting and Searching Algorithms',
+                        'Week 10-12: Algorithm Analysis'
+                    ]
+                },
+                {
+                    'code': 'BIO110',
+                    'name': 'Introduction to Biology',
+                    'description': 'Basic principles of biology and life sciences.',
+                    'credits': 12,
+                    'prerequisites': 'None',
+                    'learning_outcomes': [
+                        'Understand cell structure and function.',
+                        'Explain genetics and evolution.',
+                        'Describe ecological systems.'
+                    ],
+                    'assessment_methods': [
+                        'Lab practicals',
+                        'Written exams',
+                        'Research projects'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Cell Biology',
+                        'Week 5-8: Genetics',
+                        'Week 9-12: Ecology'
+                    ]
+                }
+            ],
+            'Postgraduate Coursework': [
+                {
+                    'code': 'CHEM302',
+                    'name': 'Organic Chemistry',
+                    'description': 'Advanced study of carbon-based compounds and reactions.',
+                    'credits': 12,
+                    'prerequisites': 'General Chemistry',
+                    'learning_outcomes': [
+                        'Understand organic reaction mechanisms.',
+                        'Synthesize organic compounds.',
+                        'Analyze spectroscopic data.'
+                    ],
+                    'assessment_methods': [
+                        'Lab reports',
+                        'Exams',
+                        'Research presentations'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Structure and Bonding',
+                        'Week 5-8: Reaction Mechanisms',
+                        'Week 9-12: Spectroscopy'
+                    ]
+                },
+                {
+                    'code': 'ENG401',
+                    'name': 'Advanced Thermodynamics',
+                    'description': 'In-depth study of thermodynamic systems and applications.',
+                    'credits': 12,
+                    'prerequisites': 'Thermodynamics I',
+                    'learning_outcomes': [
+                        'Analyze thermodynamic cycles.',
+                        'Apply thermodynamics to engineering problems.',
+                        'Conduct experimental measurements.'
+                    ],
+                    'assessment_methods': [
+                        'Problem sets',
+                        'Exams',
+                        'Project work'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Thermodynamic Laws',
+                        'Week 5-8: Power Cycles',
+                        'Week 9-12: Refrigeration Cycles'
+                    ]
+                }
+            ],
+            'Research Degrees': [
+                {
+                    'code': 'CS501',
+                    'name': 'Artificial Intelligence Research',
+                    'description': 'Research in AI algorithms and applications.',
+                    'credits': 24,
+                    'prerequisites': 'Machine Learning',
+                    'learning_outcomes': [
+                        'Conduct original AI research.',
+                        'Publish research findings.',
+                        'Develop AI applications.'
+                    ],
+                    'assessment_methods': [
+                        'Research thesis',
+                        'Seminar presentations'
+                    ],
+                    'course_structure': [
+                        'Research project over two semesters.'
+                    ]
+                }
+            ],
+            'Short Courses & Professional Development': [
+                {
+                    'code': 'PHY105',
+                    'name': 'Physics for Engineers',
+                    'description': 'Short course on physics principles relevant to engineering.',
+                    'credits': 6,
+                    'prerequisites': 'None',
+                    'learning_outcomes': [
+                        'Apply physics concepts to engineering.',
+                        'Solve engineering problems.',
+                        'Understand material properties.'
+                    ],
+                    'assessment_methods': [
+                        'Quizzes',
+                        'Assignments'
+                    ],
+                    'course_structure': [
+                        'Week 1-3: Mechanics',
+                        'Week 4-6: Materials Science'
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        'name': 'Business & Economics',
+        'icon': 'fas fa-briefcase',
+        'description': 'Study management, marketing, finance, accounting, and economic principles.',
+        'courses': {
+            'Undergraduate': [
+                {
+                    'code': 'BUS101',
+                    'name': 'Principles of Management',
+                    'description': 'Introduction to management theories and practices.',
+                    'credits': 12,
+                    'prerequisites': 'None',
+                    'learning_outcomes': [
+                        'Understand fundamental management principles.',
+                        'Develop leadership and organizational skills.',
+                        'Apply management theories to real-world scenarios.'
+                    ],
+                    'assessment_methods': [
+                        'Case studies',
+                        'Group projects',
+                        'Examinations'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Introduction to Management',
+                        'Week 5-8: Organizational Behavior',
+                        'Week 9-12: Strategic Management'
+                    ]
+                },
+                {
+                    'code': 'ACC110',
+                    'name': 'Financial Accounting',
+                    'description': 'Basics of accounting and financial statements.',
+                    'credits': 12,
+                    'prerequisites': 'Introduction to Business',
+                    'learning_outcomes': [
+                        'Prepare and interpret financial statements.',
+                        'Understand accounting principles and standards.',
+                        'Analyze financial data for decision making.'
+                    ],
+                    'assessment_methods': [
+                        'Problem sets',
+                        'Exams',
+                        'Projects'
+                    ],
+                    'course_structure': [
+                        'Week 1-3: Accounting Basics',
+                        'Week 4-6: Financial Statements',
+                        'Week 7-9: Accounting Standards',
+                        'Week 10-12: Financial Analysis'
+                    ]
+                }
+            ],
+            'Postgraduate Coursework': [
+                {
+                    'code': 'MKT202',
+                    'name': 'Marketing Strategies',
+                    'description': 'Techniques and strategies in modern marketing.',
+                    'credits': 12,
+                    'prerequisites': 'Marketing Principles',
+                    'learning_outcomes': [
+                        'Develop marketing plans and strategies.',
+                        'Analyze market trends and consumer behavior.',
+                        'Implement digital marketing techniques.'
+                    ],
+                    'assessment_methods': [
+                        'Marketing plan project',
+                        'Presentations',
+                        'Exams'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Market Analysis',
+                        'Week 5-8: Marketing Mix',
+                        'Week 9-12: Digital Marketing'
+                    ]
+                },
+                {
+                    'code': 'ECO303',
+                    'name': 'Macroeconomics',
+                    'description': 'Study of economic systems and policies at the national level.',
+                    'credits': 12,
+                    'prerequisites': 'Microeconomics',
+                    'learning_outcomes': [
+                        'Understand macroeconomic theories and models.',
+                        'Analyze fiscal and monetary policies.',
+                        'Evaluate economic indicators.'
+                    ],
+                    'assessment_methods': [
+                        'Essays',
+                        'Exams',
+                        'Research papers'
+                    ],
+                    'course_structure': [
+                        'Week 1-4: Economic Growth',
+                        'Week 5-8: Inflation and Unemployment',
+                        'Week 9-12: Fiscal and Monetary Policy'
+                    ]
+                }
+            ],
+            'Research Degrees': [
+                {
+                    'code': 'BUS501',
+                    'name': 'Business Research Methods',
+                    'description': 'Research techniques in business and economics.',
+                    'credits': 24,
+                    'prerequisites': 'Research Methodology',
+                    'learning_outcomes': [
+                        'Design and conduct business research.',
+                        'Analyze quantitative and qualitative data.',
+                        'Present research findings effectively.'
+                    ],
+                    'assessment_methods': [
+                        'Research thesis',
+                        'Seminar presentations'
+                    ],
+                    'course_structure': [
+                        'Research project over two semesters.'
+                    ]
+                }
+            ],
+            'Short Courses & Professional Development': [
+                {
+                    'code': 'ENT101',
+                    'name': 'Entrepreneurship Basics',
+                    'description': 'Short course on starting and managing a business.',
+                    'credits': 6,
+                    'prerequisites': 'None',
+                    'learning_outcomes': [
+                        'Understand entrepreneurial processes.',
+                        'Develop business plans.',
+                        'Identify funding sources.'
+                    ],
+                    'assessment_methods': [
+                        'Business plan',
+                        'Presentations'
+                    ],
+                    'course_structure': [
+                        'Week 1-3: Introduction to Entrepreneurship',
+                        'Week 4-6: Business Planning'
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        'name': 'Health Sciences',
+        'icon': 'fas fa-heartbeat',
+        'description': 'Explore nursing, public health, physiotherapy, and other health-related fields.',
+        'courses': {
+            'Undergraduate': [
+                {
+                    'code': 'NUR101',
+                    'name': 'Fundamentals of Nursing',
+                    'description': 'Basic nursing skills and patient care.'
+                },
+                {
+                    'code': 'BIO210',
+                    'name': 'Human Anatomy',
+                    'description': 'Study of the human body structure.'
+                }
+            ],
+            'Postgraduate Coursework': [
+                {
+                    'code': 'PHH202',
+                    'name': 'Public Health Principles',
+                    'description': 'Study of health promotion and disease prevention.'
+                },
+                {
+                    'code': 'PHY303',
+                    'name': 'Physiotherapy Techniques',
+                    'description': 'Advanced physiotherapy methods and practices.'
+                }
+            ],
+            'Research Degrees': [
+                {
+                    'code': 'NUR501',
+                    'name': 'Nursing Research',
+                    'description': 'Research methodologies in nursing.'
+                }
+            ],
+            'Short Courses & Professional Development': [
+                {
+                    'code': 'HLT101',
+                    'name': 'Health and Wellness',
+                    'description': 'Short course on maintaining health and wellness.'
+                },
+                {
+                    'code': 'PHM102',
+                    'name': 'Pharmacology Basics',
+                    'description': 'Introduction to pharmacology for healthcare professionals.'
+                }
+            ]
+        }
+    }
+]
+
 # Route for the Courses Page
 @app.route('/courses')
 def courses():
-  """Renders the courses page."""
-  return render_template('courses.html')
+    """Renders the courses page with dynamic faculties data."""
+    return render_template('courses.html', faculties=faculties)
+
+# Route to show courses by faculty
+@app.route('/faculty/<faculty_name>')
+def faculty_courses(faculty_name):
+    """Renders the courses for a specific faculty."""
+    # Convert faculty_name from URL to match data keys
+    faculty_key = faculty_name.replace('_', ' ').title()
+    selected_faculty = next((f for f in faculties if f['name'].lower() == faculty_key.lower()), None)
+    if not selected_faculty:
+        # If faculty not found, redirect to courses page or show 404
+        return redirect(url_for('courses'))
+    return render_template('faculty_courses.html', faculty_name=selected_faculty['name'], courses=selected_faculty['courses'])
+
+# Public route for course detail without login required
+@app.route('/public_course/<faculty_name>/<course_code>')
+def public_course_detail(faculty_name, course_code):
+    faculty_key = faculty_name.replace('_', ' ').title()
+    selected_faculty = next((f for f in faculties if f['name'].lower() == faculty_key.lower()), None)
+    if not selected_faculty:
+        return redirect(url_for('courses'))
+    # Search for course in all study levels
+    course = None
+    study_level = None
+    for level, courses_list in selected_faculty['courses'].items():
+        for c in courses_list:
+            if c['code'].lower() == course_code.lower():
+                course = c
+                study_level = level
+                break
+        if course:
+            break
+    if not course:
+        return redirect(url_for('faculty_courses', faculty_name=faculty_name))
+    return render_template('public_course_detail.html', faculty_name=selected_faculty['name'], course=course, study_level=study_level)
 
 # Route for the Admissions Page
 @app.route('/admissions')
@@ -446,6 +1072,27 @@ def logout():
     session.pop('user_id', None)
     flash('You have been logged out', 'info')
     return redirect(url_for('index'))
+
+@app.route('/start_mininet', methods=['POST'])
+@login_required
+@role_required('a')  # Or 't' if teachers should start it
+def start_mininet():
+    try:
+        subprocess.run(['sudo', 'mn', '--topo', 'minimal', '--controller=remote'], check=True)
+        flash('Mininet started successfully.', 'success')
+    except subprocess.CalledProcessError as e:
+        flash(f'Error starting Mininet: {str(e)}', 'danger')
+    return redirect(url_for('admin_home'))
+
+
+@app.route('/stop_mininet', methods=['POST'])
+@login_required
+@role_required('a')
+def stop_mininet():
+    subprocess.run(['sudo', 'mn', '-c'])
+    flash('Mininet stopped and cleaned.', 'info')
+    return redirect(url_for('admin_home'))
+
 
 
 # Route for the Forgot Password Page
